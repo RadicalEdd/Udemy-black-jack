@@ -1,5 +1,5 @@
 # Dictionary of available cards in a deck
-deck_of_card = {
+deck_of_cards = {
     'As': 11,
     'Ad': 11,
     'Ac': 11,
