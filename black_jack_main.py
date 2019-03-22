@@ -83,6 +83,22 @@ class AutomatedDealer:
         self.hit_computer()
         print("Your cards: {} of total value {}".format(", ".join(self.player_cards), self.card_value_player()))
         print("Computer cards: {} of total value {}".format(", ".join(self.computer_cards), self.card_value_computer()))
+    # Logic of computer
+
+    def computer_moves(self):
+        global bet
+        global balance
+        print("This {}".format(self.card_value_computer()))
+        # while self.card_value_player > self.card_value_computer:
+        #     self.hit_computer
+        #     if self.card_value_computer() == 21:
+        #         print("Computer have 21, you have lost {}$".format(bet))
+        #         balance = int(balance) - int(bet)
+        #         break
+        #     elif self.card_value_player() > 21:
+        #         print("Computer is over 21, you have won {}$".format(bet))
+        #         balance = int(balance) + int(bet)
+        #         break
 
     # Computer draws a card
     # Computers cards are updated
@@ -120,19 +136,20 @@ class AutomatedDealer:
     # Define method which will check if player did 21 = WIN or >21 = LOSE
     def win_or_loose(self):
         global keep_going
-        if self.card_value_player() > 21:
+        global bet
+        global balance
+        if self.card_value_player > 21:
             print("You have lost the game!!")
-            # TODO
-            # Add function for betting
-            # Won => + bank
-            print("You have lost {xx$}")
+            print("You have lost {}$".format(bet))
+            balance = int(balance) - int(bet)
+            print("Your current account balance is {}$".format(balance))
             keep_going = False
 
-        elif self.card_value_player() == 21:
+        elif self.card_value_player == 21:
             print("You have won the game!!")
-            # TODO
-            # Add function for betting
-            # Lost => - bank
+            print("You have won {}$".format(bet))
+            balance = int(balance) + int(bet)
+            print("Your current account balance is {}$".format(balance))
             keep_going = False
 
 
@@ -145,7 +162,7 @@ player = input(str("Hello, what is your name: \n"))
 
 while True:
     try:
-        balance = int(input("How much you want to take with you to the table: \n"))
+        balance = int(input("How much $ you want to take with you to the table: \n"))
     except ValueError:
         print("I do not except anything else than coins!")
         print("Try again..")
@@ -160,16 +177,32 @@ deal_the_cards = AutomatedDealer(deck_of_cards, player_cards, computer_cards)
 # print(playerLogin.balance)
 # print(playerLogin.player)
 
-next_game = True
-keep_going = True
+next_game = ""
 hit_or_stay = ""
-
+keep_going = True
 
 while True:
     next_game = input("Do you wish to play another round? Yes/No: \n")
     if next_game == "Yes":
         computer_cards.clear()
         player_cards.clear()
+        # Set up variable checking if bet is possible
+        possible_bet = False
+        while not possible_bet:
+            try:
+                print("You have currently {}$ on your account".format(balance))
+                bet = int(input("How much do you wish to bet? \n"))
+                if bet > balance:
+                    print("The bet is too big, Your bankroll is not big enough")
+                    continue
+            except ValueError:
+                print("I do not except anything else than coins!")
+                print("Try again..")
+                continue
+            else:
+                print("You bet {}$ for current round. Good luck".format(bet))
+                possible_bet = True
+
         deal_the_cards.initial_deal()
         keep_going = True
         while keep_going:
@@ -180,9 +213,13 @@ while True:
                 deal_the_cards.win_or_loose()
             elif hit_or_stay == "Stay":
                 deal_the_cards.stay()
+                print(deal_the_cards.value_print())
+                deal_the_cards.win_or_loose()
+                # deal_the_cards.computer_moves()
                 break
 
     elif next_game == "No":
         print("Game ended, you have currently {}$ on your account".format(balance))
         print("Bye {}, come again!".format(player))
         break
+
