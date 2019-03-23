@@ -160,13 +160,14 @@ player = input(str("Hello, what is your name: \n"))
 while True:
     try:
         balance = int(input("How much $ you want to take with you to the table: \n"))
+        if balance > 0:
+            print("Hello {} you have {}$ on your account balance.".format(player, balance))
+            break
+        else:
+            print("You can't take less than 1$ to a table, silly")
     except ValueError:
         print("I do not except anything else than coins!")
         print("Try again..")
-        continue
-    else:
-        print("Hello {} you have {}$ on your account balance.".format(player, balance))
-        break
 
 # Initialize class for players account and dealer
 playerLogin = PlayersAccount(player, balance)
