@@ -70,12 +70,12 @@ class AutomatedDealer:
         global bet
         global balance
         print("You decided to stay, now its my turn to beat you!")
+        print("I have: {} of total value {}".format(", ".join(self.computer_cards), self.card_value_computer()))
         while self.card_value_player() >= self.card_value_computer():
-            print("I have: {} of total value {}".format(", ".join(self.computer_cards), self.card_value_computer()))
+            print("Computer is drawing a card ... ")
             time.sleep(3)
             self.hit_computer()
             print("I have: {} of total value {}".format(", ".join(self.computer_cards), self.card_value_computer()))
-            self.hit_computer
             if self.card_value_computer() == 21:
                 balance = int(balance) - int(bet)
                 print("Computer have 21, you have lost {}$".format(bet))
@@ -129,7 +129,6 @@ class AutomatedDealer:
     # Define method which will check if player did 21 = WIN or >21 = LOSE
     def player_win_or_loose(self):
         global keep_going, bet, balance, busted
-        # if self.card_value_player > 21:
         if self.card_value_player() > 21:
             print("You have lost the game!!")
             print("You have lost {}$".format(bet))
@@ -143,7 +142,6 @@ class AutomatedDealer:
 
             keep_going = False
 
-        # elif self.card_value_player == 21:
         if self.card_value_player() == 21:
             print("You have won the game!!")
             print("You have won {}$".format(bet))
