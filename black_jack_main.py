@@ -54,6 +54,7 @@ class AutomatedDealer:
 
     # Deal two cards for player and one for computer
     def initial_deal(self):
+        print(self.playing_cards)
         print("=== GAME STARTS ===")
         self.hit_player()
         self.hit_player()
@@ -116,11 +117,31 @@ class AutomatedDealer:
 
     # Return sum of cards owned by player
     def card_value_player(self):
-        return sum(self.player_cards.values())
+        total_value_player = 0
+        for k, v in player_cards.items():
+            if not k.startswith("A"):
+                total_value_player += v
+        for k, v in player_cards.items():
+            if k.startswith("A") and total_value_player <= 10:
+                total_value_player += v[0]
+            elif k.startswith("A") and total_value_player > 10:
+                total_value_player += v[1]
+        return total_value_player
 
     # Return sum of cards owned by computer
     def card_value_computer(self):
-        return sum(self.computer_cards.values())
+        # total value of cards
+        # created to solve Aces two values challenge
+        total_value_computer = 0
+        for k, v in computer_cards.items():
+            if not k.startswith("A"):
+                total_value_computer += v
+        for k, v in computer_cards.items():
+            if k.startswith("A") and total_value_computer <= 10:
+                total_value_computer += v[0]
+            elif k.startswith("A") and total_value_computer > 10:
+                total_value_computer += v[1]
+        return total_value_computer
 
     # Print current status of players cards and sum of their value
     def value_print(self):
@@ -139,7 +160,6 @@ class AutomatedDealer:
                 print("Game ended, you have currently {}$ on your account".format(balance))
                 print("Bye {}, come again!".format(player))
                 busted = True
-
             keep_going = False
 
         if self.card_value_player() == 21:
@@ -204,8 +224,8 @@ while not busted:
 
         deal_the_cards.initial_deal()
         keep_going = True
+        deal_the_cards.player_win_or_loose()
         while keep_going:
-            deal_the_cards.player_win_or_loose()
             hit_or_stay = input("Do you wish to hit another card or will you stay? Hit/Stay: \n")
             if hit_or_stay == "Hit":
                 deal_the_cards.hit_player()
