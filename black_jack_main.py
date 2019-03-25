@@ -42,10 +42,10 @@ class AutomatedDealer:
     global player_cards
     global computer_cards
 
-    playing_cards = deck_of_cards
     # Computer + Human cards variables
     dealt_card = []
     dealt_value = []
+    playing_cards = deck_of_cards
 
     def __init__(self, deck_of_cards, player_cards, computer_cards):
         self.deck_of_cards = deck_of_cards
